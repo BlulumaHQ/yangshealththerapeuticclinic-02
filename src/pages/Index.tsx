@@ -33,51 +33,7 @@ const Index = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center scale-105"
-          style={{ backgroundImage: `url(${heroImg})` }}
-        />
-        <div className="absolute inset-0 hero-overlay" />
-        <div className="relative z-10 container mx-auto px-4">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.2 } },
-            }}
-            className="max-w-2xl"
-          >
-            <motion.p variants={fadeUp} className="text-gold text-sm tracking-[0.3em] uppercase font-body mb-4">
-              {t('Years of Experience', '多年经验')}
-            </motion.p>
-            <motion.h1 variants={fadeUp} className="font-display text-4xl md:text-5xl lg:text-7xl text-dark-section-foreground leading-tight mb-6">
-              {t('A Lifetime of Relaxation', '一生的放松享受')}
-            </motion.h1>
-            <motion.p variants={fadeUp} className="text-dark-section-foreground/80 font-body text-lg mb-4">
-              {t(
-                'Our hand let you really feel better! Integrating Traditional Chinese Medicine with Western therapy.',
-                '我们的双手让您真正感受更好！融合传统中医与西方疗法。'
-              )}
-            </motion.p>
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-8">
-              <Link
-                to="/contact"
-                className="bg-gold text-accent-foreground px-8 py-3 font-body text-sm tracking-widest uppercase hover:bg-gold-light transition-colors"
-              >
-                {t('Book Your Visit', '预约就诊')}
-              </Link>
-              <Link
-                to="/about"
-                className="border border-dark-section-foreground/50 text-dark-section-foreground px-8 py-3 font-body text-sm tracking-widest uppercase hover:border-gold hover:text-gold transition-colors"
-              >
-                {t('Learn More', '了解更多')}
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      <HeroWithForm t={t} heroImg={heroImg} />
 
       {/* Insurance Banner */}
       <section className="bg-gold py-4">
