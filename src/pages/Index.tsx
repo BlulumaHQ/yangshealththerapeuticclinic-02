@@ -18,6 +18,93 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
 };
 
+const HeroWithForm = ({ t, heroImg }: { t: (en: string, zh: string) => string; heroImg: string }) => {
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', service: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
+    setFormData({ name: '', phone: '', email: '', service: '', message: '' });
+  };
+
+  return (
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: `url(${heroImg})` }} />
+      <div className="absolute inset-0 hero-overlay" />
+      <div className="relative z-10 container mx-auto px-4 py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left - Text */}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.2 } } }}
+          >
+            <motion.p variants={fadeUp} className="text-gold text-sm tracking-[0.3em] uppercase font-body mb-4">
+              {t('Years of Experience', '多年经验')}
+            </motion.p>
+            <motion.h1 variants={fadeUp} className="font-display text-4xl md:text-5xl lg:text-6xl text-dark-section-foreground leading-tight mb-6">
+              {t('A Lifetime of Relaxation', '一生的放松享受')}
+            </motion.h1>
+            <motion.p variants={fadeUp} className="text-dark-section-foreground/80 font-body text-lg mb-4">
+              {t('Our hand let you really feel better! Integrating Traditional Chinese Medicine with Western therapy.', '我们的双手让您真正感受更好！融合传统中医与西方疗法。')}
+            </motion.p>
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-8">
+              <Link to="/contact" className="bg-gold text-accent-foreground px-8 py-3 font-body text-sm tracking-widest uppercase hover:bg-gold-light transition-colors">
+                {t('Book Your Visit', '预约就诊')}
+              </Link>
+              <Link to="/about" className="border border-dark-section-foreground/50 text-dark-section-foreground px-8 py-3 font-body text-sm tracking-widest uppercase hover:border-gold hover:text-gold transition-colors">
+                {t('Learn More', '了解更多')}
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Right - Contact Form */}
+          <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
+            <div className="bg-background/95 backdrop-blur-sm p-8 md:p-10 shadow-2xl">
+              <h2 className="font-display text-2xl text-foreground mb-2 text-center">
+                {t('Book an Appointment', '预约咨询')}
+              </h2>
+              <p className="text-muted-foreground text-sm font-body text-center mb-6">
+                {t('Fill in the form and we will contact you shortly', '填写表格，我们会尽快与您联系')}
+              </p>
+              {submitted && (
+                <div className="bg-gold/10 border border-gold text-gold p-3 mb-4 text-center text-sm font-body">
+                  {t('Thank you! We will be in touch soon.', '谢谢！我们会尽快与您联系。')}
+                </div>
+              )}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <input type="text" required placeholder={t('Your Name', '您的姓名')} value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 bg-muted border border-border text-foreground text-sm font-body placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors" />
+                  <input type="tel" required placeholder={t('Phone Number', '电话号码')} value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-3 bg-muted border border-border text-foreground text-sm font-body placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors" />
+                </div>
+                <input type="email" required placeholder={t('Email Address', '电子邮箱')} value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 bg-muted border border-border text-foreground text-sm font-body placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors" />
+                <select value={formData.service} onChange={(e) => setFormData({ ...formData, service: e.target.value })} className="w-full px-4 py-3 bg-muted border border-border text-foreground text-sm font-body focus:outline-none focus:border-gold transition-colors">
+                  <option value="">{t('Select a Service', '选择服务')}</option>
+                  <option value="rmt">{t('Registered Massage Therapy', '注册按摩治疗')}</option>
+                  <option value="acupuncture">{t('Acupuncture', '针灸')}</option>
+                  <option value="cupping">{t('Cupping Therapy', '拔罐')}</option>
+                  <option value="moxibustion">{t('Moxibustion', '艾灸')}</option>
+                  <option value="guasha">{t('Guasha (Scraping)', '刮痧')}</option>
+                  <option value="reflexology">{t('Foot Reflexology', '足底按摩')}</option>
+                </select>
+                <textarea placeholder={t('Your Message (Optional)', '留言（选填）')} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={3} className="w-full px-4 py-3 bg-muted border border-border text-foreground text-sm font-body placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors resize-none" />
+                <button type="submit" className="w-full bg-gold text-accent-foreground py-3 font-body text-sm tracking-widest uppercase hover:bg-gold-light transition-colors">
+                  {t('Send Request', '发送请求')}
+                </button>
+              </form>
+              <p className="text-muted-foreground text-xs font-body text-center mt-4">
+                {t('Or call us directly at ', '或直接致电 ')}<a href="tel:6042854968" className="text-gold hover:underline">(604) 285-4968</a>
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Index = () => {
   const { t } = useLanguage();
 
